@@ -6,47 +6,54 @@ import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const { user } = useUser();
   const { openSignIn } = useClerk();
-
   const navigate = useNavigate();
+
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full bg-black/70 backdrop-blur-md px-6 md:px-16 lg:px-36 py-5 flex items-center justify-between">
+    <nav
+      className="fixed top-0 left-0 z-50 w-full px-6 md:px-16 lg:px-36 py-5 flex items-center justify-between"
+      style={{ backgroundColor: "transparent" }}
+    >
       {/* Logo */}
       <Link to="/" className="flex-1">
         <img src={assets.logo} alt="Logo" className="w-36 h-auto" />
       </Link>
 
-      {/* Centered links */}
-      <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 bg-gray-800 rounded-3xl px-10 py-3 gap-8">
+      {/* Centered links — glassmorphic style */}
+      <div
+        className="hidden md:flex absolute left-1/2 transform -translate-x-1/2
+                   bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl
+                   px-12 py-3 gap-8 transition-all duration-300 ease-in-out
+                   hover:bg-white/15"
+      >
         <Link
           to="/"
-          className="text-white font-medium hover:text-red-400 transition"
+          className="text-white font-medium hover:text-red-400 transition transform hover:scale-105"
         >
           Home
         </Link>
         <Link
           to="/movies"
-          className="text-white font-medium hover:text-red-400 transition"
+          className="text-white font-medium hover:text-red-400 transition transform hover:scale-105"
         >
           Movies
         </Link>
         <Link
           to="/"
-          className="text-white font-medium hover:text-red-400 transition"
+          className="text-white font-medium hover:text-red-400 transition transform hover:scale-105"
         >
           Theaters
         </Link>
         <Link
           to="/"
-          className="text-white font-medium hover:text-red-400 transition"
+          className="text-white font-medium hover:text-red-400 transition transform hover:scale-105"
         >
           Releases
         </Link>
         <Link
           to="/favorite"
-          className="text-white font-medium hover:text-red-400 transition"
+          className="text-white font-medium hover:text-red-400 transition transform hover:scale-105"
         >
           Favorites
         </Link>
@@ -81,44 +88,44 @@ const Navbar = () => {
         />
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — glass style */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-gray-800 flex flex-col items-center py-6 gap-4 md:hidden rounded-b-3xl">
+        <div className="absolute top-full left-0 w-full bg-white/10 backdrop-blur-xl border-t border-white/20 flex flex-col items-center py-6 gap-4 md:hidden rounded-b-3xl">
           <XIcon
             className="w-6 h-6 cursor-pointer self-end mr-6"
             onClick={() => setIsOpen(false)}
           />
           <Link
             to="/"
-            className="text-white font-medium"
+            className="text-white font-medium hover:text-red-400 transition"
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
           <Link
             to="/movies"
-            className="text-white font-medium"
+            className="text-white font-medium hover:text-red-400 transition"
             onClick={() => setIsOpen(false)}
           >
             Movies
           </Link>
           <Link
             to="/"
-            className="text-white font-medium"
+            className="text-white font-medium hover:text-red-400 transition"
             onClick={() => setIsOpen(false)}
           >
             Theaters
           </Link>
           <Link
             to="/"
-            className="text-white font-medium"
+            className="text-white font-medium hover:text-red-400 transition"
             onClick={() => setIsOpen(false)}
           >
             Releases
           </Link>
           <Link
             to="/favorite"
-            className="text-white font-medium"
+            className="text-white font-medium hover:text-red-400 transition"
             onClick={() => setIsOpen(false)}
           >
             Favorites
