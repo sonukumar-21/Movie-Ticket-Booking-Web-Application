@@ -5,11 +5,20 @@ const BlurCircle = ({
   left = "auto",
   right = "auto",
   bottom = "auto",
+  size = "150px",
+  color = "bg-red-500/30",
 }) => {
   return (
     <div
-      className="absolute -z-50 h-58 w-58 aspect-square rounded-full bg-primary/30 blur-3xl"
-      style={{ top: top, left: left, right: right, bottom: bottom }}
+      className={`absolute rounded-full blur-3xl ${color} -z-50`}
+      style={{
+        top,
+        left,
+        right,
+        bottom,
+        width: size,
+        height: size,
+      }}
     ></div>
   );
 };
