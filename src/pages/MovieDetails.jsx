@@ -35,13 +35,12 @@ const MovieDetails = () => {
           className="max-md:mx-auto rounded-xl h-104 max-w-[70rem] object-cover"
         />
         <div className="flex flex-col gap-3 relative">
-          {/* Colored blur always behind the content */}
           <BlurCircle
             top="-60px"
             left="-60px"
             size="300px"
             opacity="15"
-            color="rgba(255, 0, 0, 0.3)" // soft red glow
+            color="rgba(255, 0, 0, 0.3)"
             className="absolute -z-10"
           />
 
