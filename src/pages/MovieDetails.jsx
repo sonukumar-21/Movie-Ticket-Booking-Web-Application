@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { dummyDateTimeData, dummyShowsData } from "../assets/assets";
 import BlurCircle from "../components/BlurCircle";
-import { StarIcon } from "lucide-react";
+import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -44,12 +44,12 @@ const MovieDetails = () => {
             className="absolute -z-10"
           />
 
-          <p className="text-red-500 font-semibold relative z-20">ENGLISH</p>
+          <p className="text-white-500 font-semibold relative z-20">ENGLISH</p>
           <h1 className="text-4xl font-semibold max-w-96 text-balance relative z-20">
             {show.movie.title}
           </h1>
-          <div className="flex items-center gap-2 text-red-500 relative z-20">
-            <StarIcon className="w-5 h-5 text-red-500 fill-red-500" />
+          <div className="flex items-center gap-2 text-white-500 relative z-20">
+            <StarIcon className="w-5 h-5 text-white-500 fill-yellow-500" />
             {show.movie.vote_average.toFixed(1)} User Rating
           </div>
           <p className="text-gray-400 mt-2 text-sm leading-tight max-w-xl relative z-20">
@@ -60,8 +60,27 @@ const MovieDetails = () => {
             {show.movie.genres.map((genre) => genre.name).join(", ")} •{" "}
             {show.movie.release_date.split("-")[0]}
           </p>
+
+          <div className="flex items-center flex-wrap gap-4 mt-4">
+            <button className="flex items-center gap-2 px-7 py-3 text-sm bg-gray-800 hover:bg-gray-900 transition rounded-md font-medium cursor-pointer active:scale-95">
+              <PlayCircleIcon className="w-5 h-5" />
+              Watch Trailer
+            </button>
+            <a
+              href="#dateSelect"
+              className="px-10 py-3 text-sm bg-red-500 hover:bg-primary-dull transition rounded-md font-medium cursor-pointer active:scale-95"
+            >
+              Buy Tickets
+            </a>
+            <button className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
+              <Heart className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
+
+      <p>Your Favorite Cast</p>
+      <div className="overflow-x-auto no-scrollbar mt-8 pb-4"></div>
     </div>
   ) : (
     <div>Loading...</div>
