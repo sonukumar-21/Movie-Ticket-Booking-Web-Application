@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeftIcon } from "lucide-react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const DateSelect = ({ dateTime }) => {
+const DateSelect = ({ dateTime, movieId }) => {
+  const navigate = useNavigate();
+  const [selected, setSelected] = useState(null);
+
+  const onBookHandler = () => {
+    if (!selected) {
+      return toast.error("Please select a date");
+    }
+    navigate(`/movie/${movieId}/${selected}`);
+    window.scrollTo(0, 0);
+  };
+
   return (
-    <div className="flex justify-center mt-22 px-6">
-      {" "}
+    <div className="flex justify-center mt-16 px-6">
       <div
         className="relative w-full max-w-5xl p-6 md:p-8 rounded-3xl bg-black/30 border border-red-500 
                    backdrop-blur-lg flex flex-col md:flex-row items-center justify-between gap-6
@@ -18,7 +30,14 @@ const DateSelect = ({ dateTime }) => {
               {Object.keys(dateTime).map((date) => (
                 <button
                   key={date}
-                  className="flex flex-col items-center justify-center h-16 w-16 md:h-14 md:w-14 aspect-square rounded-xl bg-white/10 text-white hover:bg-red-500 hover:scale-105 transition-transform"
+                  onClick={() => setSelected(date)}
+                  className={`flex flex-col items-center justify-center h-16 w-16 md:h-14 md:w-14 aspect-square rounded-xl 
+                              transition-transform duration-300
+                              ${
+                                selected === date
+                                  ? "bg-red-500 text-white shadow-[0_0_15px_rgba(255,0,0,0.7)] scale-105"
+                                  : "bg-white/10 text-white border border-red-400 hover:bg-red-600 hover:scale-105"
+                              }`}
                 >
                   <span className="font-medium">
                     {new Date(date).getDate()}
@@ -36,7 +55,10 @@ const DateSelect = ({ dateTime }) => {
         </div>
 
         <div className="mt-6 md:mt-0">
-          <button className="bg-red-500 text-white px-8 py-2 rounded-lg hover:bg-red-600 transition">
+          <button
+            onClick={onBookHandler}
+            className="bg-red-500 text-white px-8 py-2 rounded-lg hover:bg-red-600 transition"
+          >
             Book Now
           </button>
         </div>
