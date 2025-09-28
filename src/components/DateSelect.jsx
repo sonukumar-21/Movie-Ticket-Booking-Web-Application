@@ -3,11 +3,12 @@ import { ChevronLeftIcon } from "lucide-react";
 
 const DateSelect = ({ dateTime }) => {
   return (
-    <div className="flex justify-center mt-10 px-6">
+    <div className="flex justify-center mt-22 px-6">
+      {" "}
       <div
-        className="relative w-full max-w-5xl p-6 md:p-8 rounded-2xl bg-black/40 border border-red-500 
-                   backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6
-                   animate-[pulse-glow_2s_ease-in-out_infinite]"
+        className="relative w-full max-w-5xl p-6 md:p-8 rounded-3xl bg-black/30 border border-red-500 
+                   backdrop-blur-lg flex flex-col md:flex-row items-center justify-between gap-6
+                   shadow-[0_0_20px_rgba(255,0,0,0.4)]"
       >
         <div className="flex-1">
           <p className="text-lg font-semibold text-white mb-4">Choose Date</p>
@@ -17,7 +18,7 @@ const DateSelect = ({ dateTime }) => {
               {Object.keys(dateTime).map((date) => (
                 <button
                   key={date}
-                  className="flex flex-col items-center justify-center h-14 w-14 aspect-square rounded-lg bg-white/10 text-white hover:bg-red-500 transition"
+                  className="flex flex-col items-center justify-center h-16 w-16 md:h-14 md:w-14 aspect-square rounded-xl bg-white/10 text-white hover:bg-red-500 hover:scale-105 transition-transform"
                 >
                   <span className="font-medium">
                     {new Date(date).getDate()}
