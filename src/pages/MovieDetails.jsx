@@ -4,28 +4,32 @@ import { dummyDateTimeData, dummyShowsData } from "../assets/assets";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
 import DateSelect from "../components/DateSelect";
 import MovieCard from "../components/MovieCard";
+import Loading from "../components/Loading";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [show, setShow] = useState(null);
 
+  // Fetch movie details
   useEffect(() => {
-    const show = dummyShowsData.find((s) => s._id === id);
-    if (show) {
+    const selectedShow = dummyShowsData.find((s) => s._id === id);
+    if (selectedShow) {
       setShow({
-        movie: show,
+        movie: selectedShow,
         dateTime: dummyDateTimeData,
       });
     }
   }, [id]);
 
+  // Time formatter (for runtime)
   const timeFormatter = (min) => {
     const h = Math.floor(min / 60);
     const m = min % 60;
     return `${h}h ${m}m`;
   };
 
+  // Scroll to DateSelect section on Buy Ticket
   const handleBuyTicketClick = () => {
     const section = document.getElementById("dateSelect");
     if (section) {
@@ -33,11 +37,14 @@ const MovieDetails = () => {
     }
   };
 
-  if (!show)
-    return <div className="text-white text-center mt-20">Loading...</div>;
+  // Show loading spinner while data is being fetched
+  if (!show) {
+    return <Loading />;
+  }
 
   return (
     <div className="relative px-6 md:px-16 lg:px-40 pt-24 pb-20 overflow-hidden min-h-screen bg-[#0f0f0f]">
+      {/* Poster & Details */}
       <div className="flex flex-col md:flex-row gap-12 max-w-6xl mx-auto">
         <img
           src={show.movie.poster_path}
@@ -46,14 +53,17 @@ const MovieDetails = () => {
         />
 
         <div className="flex flex-col justify-center gap-5 text-white">
+          {/* Language */}
           <p className="uppercase tracking-widest text-sm font-medium text-red-400">
             {show.movie.original_language || "ENGLISH"}
           </p>
 
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-white drop-shadow-lg">
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow-lg">
             {show.movie.title}
           </h1>
 
+          {/* Rating */}
           <div className="flex items-center gap-3 mt-2">
             <StarIcon className="w-6 h-6 text-yellow-400 fill-yellow-400" />
             <span className="text-2xl font-semibold text-yellow-300">
@@ -62,16 +72,19 @@ const MovieDetails = () => {
             <span className="text-base text-gray-400">User Rating</span>
           </div>
 
+          {/* Overview */}
           <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-xl">
             {show.movie.overview}
           </p>
 
+          {/* Meta info */}
           <p className="text-sm text-gray-400">
             {timeFormatter(show.movie.runtime)} •{" "}
             {show.movie.genres.map((genre) => genre.name).join(", ")} •{" "}
             {show.movie.release_date.split("-")[0]}
           </p>
 
+          {/* Action Buttons */}
           <div className="flex items-center flex-wrap gap-4 mt-6">
             <button
               type="button"
@@ -99,6 +112,7 @@ const MovieDetails = () => {
         </div>
       </div>
 
+      {/* Cast Section */}
       <div className="mt-20 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-white mb-8">
           Featured Cast
@@ -125,6 +139,7 @@ const MovieDetails = () => {
         </div>
       </div>
 
+      {/* Date Selector & Recommendations */}
       <div id="dateSelect" className="mt-16 max-w-6xl mx-auto">
         <DateSelect dateTime={show.dateTime} id={id} />
 
