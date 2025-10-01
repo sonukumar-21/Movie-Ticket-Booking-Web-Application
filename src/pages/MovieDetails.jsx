@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { dummyShowsData, dummyDateTimeData } from "../assets/assets";
+import { dummyDateTimeData, dummyShowsData } from "../assets/assets";
+import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
 import DateSelect from "../components/DateSelect";
 import MovieCard from "../components/MovieCard";
 import Loading from "../components/Loading";
-import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [show, setShow] = useState(null);
 
+  // Fetch movie details
   useEffect(() => {
     const selectedShow = dummyShowsData.find((s) => s._id === id);
     if (selectedShow) {
       setShow({
         movie: selectedShow,
-        dateTime: dummyDateTimeData,
+        dateTime: dummyDateTimeData, // You can filter by movieId if needed
       });
     }
   }, [id]);
@@ -27,14 +28,16 @@ const MovieDetails = () => {
     return `${h}h ${m}m`;
   };
 
-  if (!show) return <Loading />;
-
   const handleBuyTicketClick = () => {
     const section = document.getElementById("dateSelect");
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  if (!show) {
+    return <Loading />;
+  }
 
   return (
     <div className="relative px-6 md:px-16 lg:px-40 pt-24 pb-20 overflow-hidden min-h-screen bg-[#0f0f0f]">
@@ -69,41 +72,87 @@ const MovieDetails = () => {
 
           <p className="text-sm text-gray-400">
             {timeFormatter(show.movie.runtime)} •{" "}
-            {show.movie.genres.map((g) => g.name).join(", ")} •{" "}
+            {show.movie.genres.map((genre) => genre.name).join(", ")} •{" "}
             {show.movie.release_date.split("-")[0]}
           </p>
 
           <div className="flex items-center flex-wrap gap-4 mt-6">
-            <button className="flex items-center gap-2 px-7 py-3 rounded-md font-medium bg-gray-800/80 hover:bg-gray-700 text-sm backdrop-blur-md shadow-lg">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-7 py-3 rounded-md font-medium bg-gray-800/80 hover:bg-gray-700 active:scale-95 transition text-sm backdrop-blur-md shadow-lg"
+            >
               <PlayCircleIcon className="w-5 h-5" />
               Watch Trailer
             </button>
 
             <button
               onClick={handleBuyTicketClick}
-              className="px-10 py-3 rounded-md font-medium bg-red-600 hover:bg-red-500 text-sm shadow-lg"
+              type="button"
+              className="px-10 py-3 rounded-md font-medium bg-red-600 hover:bg-red-500 active:scale-95 transition text-sm shadow-lg"
             >
               Buy Tickets
             </button>
 
-            <button className="p-3 rounded-full bg-gray-700/80 hover:bg-gray-600 shadow-md backdrop-blur-md">
+            <button
+              type="button"
+              className="p-3 rounded-full bg-gray-700/80 hover:bg-gray-600 active:scale-95 transition shadow-md backdrop-blur-md"
+            >
               <Heart className="w-5 h-5 text-white" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* DateSelect & Recommendations */}
+      {/* Cast Section */}
+      <div className="mt-20 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-white mb-8">
+          Featured Cast
+          <span className="block w-24 h-1 bg-red-500 rounded mt-3"></span>
+        </h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {show.movie.casts.slice(0, 12).map((cast, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 cursor-pointer"
+            >
+              <img
+                src={cast.profile_path}
+                alt={cast.name}
+                className="rounded-full h-28 w-28 object-cover shadow-lg"
+              />
+              <p className="mt-3 text-sm font-semibold text-white tracking-wide">
+                {cast.name}
+              </p>
+              <p className="text-xs text-gray-400">{cast.character}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Date Selector & Recommendations */}
       <div id="dateSelect" className="mt-16 max-w-6xl mx-auto">
-        <DateSelect dateTime={show.dateTime} id={id} />
+        <DateSelect dateTime={show.dateTime} movieId={show.movie._id} />
 
         <p className="text-xl font-semibold text-white mt-20 mb-8">
           You May Also Like
         </p>
         <div className="flex flex-wrap gap-8">
-          {dummyShowsData.slice(0, 4).map((movie) => (
-            <MovieCard key={movie._id} movie={movie} />
+          {dummyShowsData.slice(0, 4).map((movie, index) => (
+            <MovieCard key={movie._id ?? index} movie={movie} />
           ))}
+        </div>
+
+        <div className="flex justify-center mt-16">
+          <button
+            onClick={() => {
+              navigate("/movies");
+              scrollTo(0, 0);
+            }}
+            className="px-10 py-3 text-sm font-medium rounded-md bg-red-600 hover:bg-red-500 active:scale-95 transition shadow-lg"
+          >
+            Show More
+          </button>
         </div>
       </div>
     </div>

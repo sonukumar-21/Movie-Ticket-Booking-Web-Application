@@ -7,16 +7,10 @@ const DateSelect = ({ dateTime, movieId }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
 
-  if (!dateTime || Object.keys(dateTime).length === 0) {
-    return (
-      <p className="text-white text-center mt-6">
-        No dates available for this movie.
-      </p>
-    );
-  }
-
   const onBookHandler = () => {
-    if (!selected) return toast.error("Please select a date");
+    if (!selected) {
+      return toast.error("Please select a date");
+    }
     navigate(`/movie/${movieId}/${selected}`);
     window.scrollTo(0, 0);
   };
