@@ -218,6 +218,7 @@ const SeatLayout = () => {
 
         {/* Checkout Button */}
         <button
+          onClickCapture={() => navigate("/my-bookings")}
           className="mt-4 px-6 py-3 bg-red-600 text-white font-bold rounded-full hover:bg-red-700 shadow-lg transition-all"
           onClick={handleCheckout}
         >
