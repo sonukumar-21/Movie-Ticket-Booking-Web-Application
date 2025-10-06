@@ -1,15 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
-@import "tailwindcss";
 
-theme {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌍 Global Variables */
+:root {
   --color-primary: #f84565;
   --color-primary-dull: #d63854;
 }
 
+/* ✍️ Global Font & Scrollbar */
 * {
   font-family: "Outfit", sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #787777 #1e1e1e;
+}
+
+/* Chrome / Safari Scrollbar */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #787777;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: #1e1e1e;
 }
 
 body {
@@ -17,6 +35,7 @@ body {
   background-color: #09090b;
 }
 
+/* 🔥 Gradient Animation */
 @keyframes gradient-x {
   0% {
     background-position: 0% 50%;
@@ -28,16 +47,12 @@ body {
     background-position: 0% 50%;
   }
 }
-
 .animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 15s ease infinite;
 }
 
-.no-scrollbar {
-  scrollbar-width: none;
-}
-
+/* ✨ Glow Effect */
 @keyframes pulse-glow {
   0%,
   100% {
@@ -45,5 +60,30 @@ body {
   }
   50% {
     box-shadow: 0 0 45px rgba(255, 0, 0, 0.8);
+  }
+}
+
+/* 🛑 Utility: No Scrollbar */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* 🔥 Base Form Element Overrides */
+@layer base {
+  /* Remove spinner arrows in WebKit */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Remove spinner arrows in Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* Invert calendar picker icon for dark mode */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
   }
 }
